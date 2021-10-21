@@ -1,0 +1,29 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="JkrProjectsRestApp (local-development)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="jkrprojects.jkrprojects-rest-app" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="one.jkr.de.jkrprojects.jkrprojects.rest.app.JkrProjectsRestApp" />
+    <option name="ACTIVE_PROFILES" value="local-development" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="SHORTEN_COMMAND_LINE" value="MANIFEST" />
+    <additionalParameters>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="server.port" />
+        <option name="value" value="8075" />
+      </param>
+    </additionalParameters>
+    <envs>
+      <env name="AWS_ACCESS_KEY_ID" value=":)" />
+      <env name="AWS_SECRET_ACCESS_KEY" value=":)" />
+      <env name="DATABASE_ACCESS_HOSTNAME" value="localhost" />
+      <env name="DATABASE_NAME" value="jkrprojects-rest-app" />
+      <env name="DATABASE_ACCESS_USERNAME" value="postgres" />
+      <env name="DATABASE_ACCESS_PASSWORD" value=":)" />
+      <env name="AUTHENTICATION_SYSTEM_JWT_TOKEN_SIGNING_SECRET" value=":)" />
+      <env name="AUTHENTICATION_SYSTEM_SYSTEM_CLIENT_TOKEN_FOR_JKR_PERSONAL_ACCESS" value=":)" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

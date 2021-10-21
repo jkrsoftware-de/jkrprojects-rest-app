@@ -1,0 +1,76 @@
+###### 🌏 ###### 💬 ######
+# All my public-accessible Software-Content aren't underlying any Software-License. It's Free-Software.
+# You can use my Code as you want — my only Wish is: mark me as Original-Creator of your Derivation. But you mustn't. :)
+#
+# My Intention of creating/publishing Free-Software is to help our Public Society.
+# In this particular Case our newly-created "Computer-World". I mean everything regarding complex IT-Systems.
+#
+# made for jkrsoftware.de as Versioning- and Deployment-System.
+# made with ❤ by Jeremy Krüger (jkr.one). 😊
+###### 🌏 ###### 💬 ######
+image: maven:3.8.1-openjdk-11-slim
+services:
+  - docker:dind
+
+cache:
+  paths:
+    - .m2/repository
+
+variables:
+  DOCKER_TLS_CERTDIR: ''
+  DOCKER_DRIVER: overlay2
+  SPRING_PROFILES_ACTIVE: gitlab-ci
+
+stages:
+  - build
+  - test
+  - release
+
+build:
+  stage: build
+  cache:
+    paths:
+      - ./.m2/repository
+    # keep cache across branch
+    key: "$CI_BUILD_REF_NAME"
+  script:
+    - export SPRING_PROFILES_ACTIVE=build
+    #
+    - mvn -Dmaven.repo.local=./.m2/repository clean package
+
+test:
+  stage: test
+  cache:
+    paths:
+      - ./.m2/repository
+    # keep cache across branch
+    key: "$CI_BUILD_REF_NAME"
+  script:
+    - export SPRING_PROFILES_ACTIVE=build
+    #
+    - mvn -Dmaven.repo.local=./.m2/repository clean test
+
+
+(prod) deploy to docker01p.fsn-1.jkr.one:
+  stage: release
+  image: alpine:latest
+  only:
+    refs:
+      - release
+  script:
+    - apk add --no-cache bash openssh sshpass
+    - export SPRING_PROFILES_ACTIVE=build
+    #
+    - release-scripts/gitlab/deploy.sh ${SSH_DEPLOYMENT_HOST} ${SSH_DEPLOYMENT_USER} ${SSH_DEPLOYMENT_PASS} ${SSH_DEPLOYMENT_LOCATION}
+
+(dev) deploy to docker01p.fsn-1.jkr.one:
+  stage: release
+  image: alpine:latest
+  only:
+    refs:
+      - development
+  script:
+    - apk add --no-cache bash openssh sshpass
+    - export SPRING_PROFILES_ACTIVE=build
+    #
+    - release-scripts/gitlab/deploy-dev.sh ${SSH_DEPLOYMENT_HOST} ${SSH_DEPLOYMENT_USER} ${SSH_DEPLOYMENT_PASS} ${SSH_DEPLOYMENT_LOCATION}

@@ -1,0 +1,61 @@
+###### 🌏 ###### 💬 ######
+# All my public-accessible Software-Content aren't underlying any Software-License. It's Free-Software.
+# You can use my Code as you want — my only Wish is: mark me as Original-Creator of your Derivation. But you mustn't. :)
+#
+# My Intention of creating/publishing Free-Software is to help our Public Society.
+# In this particular Case our newly-created "Computer-World". I mean everything regarding complex IT-Systems.
+#
+# made for jkrsoftware.de as Versioning- and Deployment-System.
+# made with ❤ by Jeremy Krüger (jkr.one). 😊
+###### 🌏 ###### 💬 ######
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  AWS CloudFormation-Template for the jkrprojects.de REST-App.
+
+Conditions:
+  IsProductionEnvironment: !Equals
+    - !Ref AWS::AccountId
+    - '993857686066'
+
+Resources:
+
+### Start: My Worklife-Project ###
+
+  # Bucket for uploaded Application-Files.
+  jkrprojectsWorklifeProjectApplicationFilesUploadBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub
+        - 'jkrprojects-my-worklife-files-for-applications-${AccountId}'
+        - { AccountId: !Ref AWS::AccountId }
+
+  # Access-Policy granting Full-Access of the above Bucket for the Bucket's IAM Access-Group.
+  jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessPolicy
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: [ 's3:*' ]
+            Resource: !Sub
+              - 'arn:aws:s3:::${BucketName}/*'
+              - { BucketName: !Ref jkrprojectsWorklifeProjectApplicationFilesUploadBucket }
+      Groups:
+        - !Ref jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessGroup
+
+  # Access-Group for easily attaching the S3 Bucket-Permissions to an IAM-User.
+  jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessGroup
+
+  # IAM-User for the Spring Boot-Application.
+  jkrprojectsRestAppUser:
+    Type: AWS::IAM::User
+    Properties:
+      Groups:
+        - !Ref jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessGroup
+      UserName: jkrprojects-rest-app-user
+
+### End: My Worklife Project ###
