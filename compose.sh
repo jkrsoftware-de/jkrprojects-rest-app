@@ -9,11 +9,7 @@
 # made for jkrsoftware.de as Versioning- and Deployment-System.
 # made with ❤ by Jeremy Krüger (jkr.one). 😊
 ###### 🌏 ###### 💬 ######
-export SERVICE_NAME=jkrprojects-rest-app
-export SERVICE_HOST=rest-app.jkrprojects.de
-export CURRENT_ENVIRONMENT=production
-
-source production-service-configuration.conf
+source service-configurations/production-service-configuration.conf
 
 export COMPOSE_PROJECT_NAME=${SERVICE_NAME}
 docker-compose $1 $2 $3 $4 $5
