@@ -9,27 +9,80 @@
 # made with ❤ by Jeremy Krüger (jkr.one). 😊
 ###### 🌏 ###### 💬 ######
 version: '3'
+
+# Configuration of Service-Containers.
 services:
+
+  ## Spring Boot-Application.
   springapp:
     build: .
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.${SERVICE_PROJECT_NAME}-springapp.entrypoints=web"
-      - "traefik.http.routers.${SERVICE_PROJECT_NAME}-springapp.rule=Host(`${SERVICE_HOST}`)"
-      - "traefik.http.middlewares.${SERVICE_PROJECT_NAME}-springapp-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.${SERVICE_PROJECT_NAME}-springapp.middlewares=${SERVICE_PROJECT_NAME}-springapp-https-redirect"
-      - "traefik.http.routers.${SERVICE_PROJECT_NAME}-springapp-secure.entrypoints=websecure"
-      - "traefik.http.routers.${SERVICE_PROJECT_NAME}-springapp-secure.rule=Host(`${SERVICE_HOST}`)"
-      - "traefik.http.routers.${SERVICE_PROJECT_NAME}-springapp-secure.tls=true"
-      - "traefik.http.routers.${SERVICE_PROJECT_NAME}-springapp-secure.tls.certresolver=myresolver"
-      - "traefik.http.routers.${SERVICE_PROJECT_NAME}-springapp-secure.service=${SERVICE_PROJECT_NAME}-springapp"
-      - "traefik.http.services.${SERVICE_PROJECT_NAME}-springapp.loadbalancer.server.port=8080"
+      - "traefik.http.routers.${SERVICE_NAME}-springapp.entrypoints=web"
+      - "traefik.http.routers.${SERVICE_NAME}-springapp.rule=Host(`${SERVICE_HOST}`)"
+      - "traefik.http.middlewares.${SERVICE_NAME}-springapp-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.${SERVICE_NAME}-springapp.middlewares=${SERVICE_NAME}-springapp-https-redirect"
+      - "traefik.http.routers.${SERVICE_NAME}-springapp-secure.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}-springapp-secure.rule=Host(`${SERVICE_HOST}`)"
+      - "traefik.http.routers.${SERVICE_NAME}-springapp-secure.tls=true"
+      - "traefik.http.routers.${SERVICE_NAME}-springapp-secure.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}-springapp-secure.service=${SERVICE_NAME}-springapp"
+      - "traefik.http.services.${SERVICE_NAME}-springapp.loadbalancer.server.port=8080"
     environment:
+      # Common Configuration.
       SPRING_PROFILES_ACTIVE: ${CURRENT_ENVIRONMENT}
+      # Database-Configuration.
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_ACCESS_HOSTNAME: 'database_postgres'
+      DATABASE_ACCESS_USERNAME: ${DATABASE_ACCESS_USERNAME}
+      DATABASE_ACCESS_PASSWORD: ${DATABASE_ACCESS_PASSWORD}
     networks:
       web:
+      postgres:
 
+  ## Postgres Database for the Spring Boot-App.
+  database_postgres:
+    image: postgres:13.4-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_ACCESS_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      PGDATA: /var/lib/postgresql/data/pgdata"
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data'
+    networks:
+      postgres:
+
+  ## PhpPgAdmin providing Web-Access to the Database.
+  ## TODO: make it only accessible via VPN.
+  database_phppgadmin:
+    image: bitnami/phppgadmin:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_HOST: 'database_postgres'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${SERVICE_NAME}-phppgadmin.entrypoints=web"
+      - "traefik.http.routers.${SERVICE_NAME}-phppgadmin.rule=Host(`${SERVICE_NAME}.db.jkr.one`)"
+      - "traefik.http.middlewares.${SERVICE_NAME}-phppgadmin-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.${SERVICE_NAME}-phppgadmin.middlewares=${SERVICE_NAME}-phppgadmin-https-redirect"
+      - "traefik.http.routers.${SERVICE_NAME}-phppgadmin-secure.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}-phppgadmin-secure.rule=Host(`${SERVICE_NAME}.db.jkr.one`)"
+      - "traefik.http.routers.${SERVICE_NAME}-phppgadmin-secure.tls=true"
+      - "traefik.http.routers.${SERVICE_NAME}-phppgadmin-secure.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}-phppgadmin-secure.service=${SERVICE_NAME}-phppgadmin"
+      - "traefik.http.services.${SERVICE_NAME}-phppgadmin.loadbalancer.server.port=8080"
+    networks:
+      web:
+      postgres:
+
+# Configuration of Logical Docker-Volumes.
+volumes:
+  postgres_data:
+
+# Configuration of Logical Docker-Networks.
 networks:
   web:
-    external: true
+    external: true # the "web"-Network is managed by an Traefik-Deployment routing all my HTTP(S)-Traffic to my Service-Containers.
+  postgres:
