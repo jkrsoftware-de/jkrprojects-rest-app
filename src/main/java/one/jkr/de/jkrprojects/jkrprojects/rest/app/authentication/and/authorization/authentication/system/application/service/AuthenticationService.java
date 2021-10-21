@@ -8,7 +8,6 @@ import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorizat
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.application.ports.in.CheckAuthenticationViaJwtAuthenticationTokenCommand;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.application.ports.out.LoadCompanyCodePort;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.application.ports.out.LoadSystemClientPort;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.application.utils.jwt.ClientInformationsFromJwtTokenSubjectExtractor;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.application.utils.jwt.JwtTokenIssuer;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.application.utils.jwt.JwtTokenValidator;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.domain.jwt.JwtAuthenticationToken;
@@ -41,9 +40,6 @@ public class AuthenticationService implements AuthenticationUseCase {
 
     @NonNull
     private final JwtTokenValidator jwtTokenValidator;
-
-    @NonNull
-    private final ClientInformationsFromJwtTokenSubjectExtractor clientInformationsFromJwtTokenSubjectExtractor;
 
     @Override
     public Optional<JwtAuthenticationToken> authenticateClient(@NonNull AuthenticateViaCompanyCodeCommand command) {
