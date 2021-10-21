@@ -32,6 +32,9 @@ services:
     environment:
       # Common Configuration.
       SPRING_PROFILES_ACTIVE: ${CURRENT_ENVIRONMENT}
+      # AWS-Credentials.
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       # Database-Configuration.
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_ACCESS_HOSTNAME: 'database_postgres'
