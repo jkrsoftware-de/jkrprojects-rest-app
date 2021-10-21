@@ -41,3 +41,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Service Configurations ###
+development-service-configuration.conf
+production-service-configuration.conf
