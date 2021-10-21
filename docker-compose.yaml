@@ -49,8 +49,9 @@ services:
     image: postgres:13.4-alpine
     restart: always
     environment:
-      POSTGRES_PASSWORD: ${DATABASE_ACCESS_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_ACCESS_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_ACCESS_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata"
     volumes:
       - 'postgres_data:/var/lib/postgresql/data'
