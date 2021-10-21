@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="JkrProjectsRestApp (local-development)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <module name="jkrprojects.jkrprojects-rest-app" />
+    <module name="jkrprojects-rest-app" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="one.jkr.de.jkrprojects.jkrprojects.rest.app.JkrProjectsRestApp" />
     <option name="ACTIVE_PROFILES" value="local-development" />
     <option name="ALTERNATIVE_JRE_PATH" />
