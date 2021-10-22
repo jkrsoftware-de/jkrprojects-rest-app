@@ -43,5 +43,5 @@ build/
 .vscode/
 
 ### Service Configurations ###
-development-service-configuration.conf
-production-service-configuration.conf
+service-configurations/development-service-configuration.conf
+service-configurations/production-service-configuration.conf

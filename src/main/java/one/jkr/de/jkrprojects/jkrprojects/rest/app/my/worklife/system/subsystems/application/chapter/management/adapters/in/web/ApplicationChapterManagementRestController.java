@@ -11,10 +11,7 @@ import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.adapters.in.web.payload.data.classes.list.all.application.chapters.by.company.code.id.response.ListAllApplicationChaptersForCompanyCodeResponsePayload;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.adapters.in.web.payload.data.classes.update.application.chapter.request.UpdatePredefinedOrderNumberOfApplicationChapterRequestPayload;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.adapters.in.web.payload.data.classes.update.application.chapter.response.UpdatePredefinedOrderNumberOfApplicationChapterResponsePayload;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.application.ports.in.ApplicationChapterUseCase;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.application.ports.in.CreateApplicationChapterCommand;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.application.ports.in.GetAllApplicationChaptersForCompanyCodeCommand;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.application.ports.in.UpdatePredefinedOrderNumberOfApplicationChapterCommand;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.application.ports.in.*;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.domain.ApplicationChapter;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.domain.ApplicationChapterId;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.subsystems.application.files.management.adapters.in.InternalApplicationFilesManagementAdapter;
@@ -46,11 +43,10 @@ public class ApplicationChapterManagementRestController {
 
     @RequestMapping(value = "/chapter-management/list-all/by-company-code-id/{companyCodeId}", method = RequestMethod.GET)
     public ResponseEntity<?> listAllApplicationChaptersForCompanyCode(@RequestHeader("Authorization") @NonNull String authorizationHeader,
-                                                                      @PathVariable @NonNull UUID companyCodeId,
-                                                                      @RequestBody @NonNull CreateApplicationChapterRequestPayload payload) throws NoAuthorizationRestException {
+                                                                      @PathVariable @NonNull UUID companyCodeId) throws NoAuthorizationRestException {
         internalAuthorizationSystemAdapterForRestControllers.checkAuthorizationForCompanyCode(authorizationHeader, companyCodeId);
 
-        log.info(LOG_PREFIX + "List all Application Chapters for CompanyCode: \"{}\".", payload);
+        log.info(LOG_PREFIX + "List all Application Chapters for CompanyCode: \"{}\".", companyCodeId);
         Set<ApplicationChapter> applicationChapters = applicationChapterUseCase.getApplicationChapters(
                 new GetAllApplicationChaptersForCompanyCodeCommand(new CompanyCodeId(companyCodeId))
         );
@@ -113,7 +109,16 @@ public class ApplicationChapterManagementRestController {
     @RequestMapping(value = "/chapter-management/application-chapter/{applicationChapterId}/file/download-url", method = RequestMethod.GET)
     public ResponseEntity<?> getApplicationChapterFileDownloadUrl(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                                   @PathVariable @NonNull UUID applicationChapterId) throws NoAuthorizationRestException {
-        internalAuthorizationSystemAdapterForRestControllers.checkSystemClientAuthorization(authorizationHeader);
+
+        Optional<ApplicationChapter> applicationChapter = applicationChapterUseCase.getApplicationChapter(
+                new GetApplicationChapterCommand(new ApplicationChapterId(applicationChapterId)));
+
+        if (applicationChapter.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        internalAuthorizationSystemAdapterForRestControllers.checkAuthorizationForCompanyCode(authorizationHeader,
+                applicationChapter.get().getCompanyCodeId().getId());
 
         log.info(LOG_PREFIX + "Get Presigned-Download URL for Application Chapter: \"{}\".", applicationChapterId);
         Optional<URL> presignedDownloadUrl = internalApplicationFilesManagementAdapter.getPresignedDownloadUrl(
@@ -141,5 +146,4 @@ public class ApplicationChapterManagementRestController {
 
         return ResponseEntity.ok(new GetPresignedUrlResponsePayload(presignedUploadUrl.get()));
     }
-
 }

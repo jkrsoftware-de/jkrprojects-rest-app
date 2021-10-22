@@ -30,9 +30,7 @@ build:
   stage: build
   cache:
     paths:
-      - ./.m2/repository
-    # keep cache across branch
-    key: "$CI_BUILD_REF_NAME"
+      - .m2
   script:
     - export SPRING_PROFILES_ACTIVE=build
     #
@@ -42,9 +40,7 @@ test:
   stage: test
   cache:
     paths:
-      - ./.m2/repository
-    # keep cache across branch
-    key: "$CI_BUILD_REF_NAME"
+      - .m2
   script:
     - export SPRING_PROFILES_ACTIVE=build
     #
