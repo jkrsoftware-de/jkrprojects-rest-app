@@ -13,17 +13,14 @@ import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorizat
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.domain.jwt.JwtAuthenticationToken;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.domain.jwt.subjects.JwtTokenSubjectForViaCompanyCodeAuthenticatedClientTokens;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.domain.jwt.subjects.JwtTokenSubjectForViaSystemClientCredentialsAuthenticatedClientTokens;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.domain.jwt.subjects.TypeOfClient;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.domain.successful.authentication.response.SuccessfulAuthenticationResponse;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.domain.system.client.SystemClient;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.domain.system.client.SystemClientId;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.authentication.and.authorization.authentication.system.domain.system.client.SystemClientSecret;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.company.code.controlling.domain.CompanyCode;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -71,10 +68,9 @@ public class AuthenticationService implements AuthenticationUseCase {
     @Override
     public Optional<SuccessfulAuthenticationResponse> checkAuthentication(
             @NonNull CheckAuthenticationViaJwtAuthenticationTokenCommand command) {
-        Optional<Pair<TypeOfClient, UUID>> extractedClientInformations = jwtTokenValidator.verifyJwtTokenAndReturnClientInformationsIfValid(
-                command.getJwtAuthenticationToken());
-        return extractedClientInformations.map(
-                clientInformations -> new SuccessfulAuthenticationResponse(clientInformations.getFirst(), clientInformations.getSecond()));
+        return jwtTokenValidator.verifyJwtTokenAndReturnClientInformationsIfValid(command.getJwtAuthenticationToken()).map(
+                extractedClientInformations -> new SuccessfulAuthenticationResponse(
+                        extractedClientInformations.getFirst(), extractedClientInformations.getSecond()));
     }
 
 }
