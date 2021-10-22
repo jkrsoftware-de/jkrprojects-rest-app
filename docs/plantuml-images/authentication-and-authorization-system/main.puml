@@ -1,0 +1,13 @@
+@startuml
+
+title Example Title
+header Page Header
+footer Page %page% of %lastpage%
+
+autonumber
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+@enduml

@@ -49,7 +49,8 @@ I'll catch this up and write some Tests, when I've some Time.
 Here is a List of the Systems, I created for this Backend-App:
 * an **Authentication- and Authorization**-System,
 * a **Simple S3-FileManager** (_will be moved into an own Library sometime_),
-* and a **My Worklife**-System, serving the Content for my "https://my-worklife.jkrprojects.de"-Web-App.<br />
+* and a **My Worklife**-System, including the Business Logic for my „My Worklife“-Project.<br />
+  Accessible under: [my-worklife.jkrprojects.de](https://my-worklife.jkrprojects.de).
   It contains following Subsystems:
   * a **Company-Code Controlling**-System,
   * and an **Application-Chapter Management**-System,
