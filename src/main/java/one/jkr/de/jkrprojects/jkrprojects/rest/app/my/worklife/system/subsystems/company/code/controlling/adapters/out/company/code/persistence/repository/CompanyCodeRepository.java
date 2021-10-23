@@ -1,7 +1,7 @@
-package one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.company.code.controlling.adapters.out.persistence.database.repository;
+package one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.company.code.controlling.adapters.out.company.code.persistence.repository;
 
 import lombok.NonNull;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.company.code.controlling.adapters.out.persistence.database.entity.classes.CompanyCodeDto;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.company.code.controlling.adapters.out.company.code.persistence.entity.classes.CompanyCodeDto;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

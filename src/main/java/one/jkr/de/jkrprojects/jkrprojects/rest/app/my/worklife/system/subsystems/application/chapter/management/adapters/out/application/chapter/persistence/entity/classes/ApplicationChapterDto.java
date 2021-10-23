@@ -1,4 +1,4 @@
-package one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.company.code.controlling.adapters.out.persistence.database.entity.classes;
+package one.jkr.de.jkrprojects.jkrprojects.rest.app.my.worklife.system.subsystems.application.chapter.management.adapters.out.application.chapter.persistence.entity.classes;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,15 +14,20 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "COMPANY_CODES")
-public class CompanyCodeDto {
+@Table(name = "APPLICATION_CHAPTERS")
+public class ApplicationChapterDto {
 
     @NonNull
     @Id
+    UUID applicationChapterId;
+
+    @NonNull
     UUID companyCodeId;
 
     @NonNull
-    String companyCode;
+    String applicationChapterName;
+
+    int predefinedOrderNumber;
 
     @NonNull
     @CreationTimestamp
