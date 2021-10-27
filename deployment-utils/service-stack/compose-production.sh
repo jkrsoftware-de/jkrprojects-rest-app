@@ -6,10 +6,10 @@
 # My Intention of creating/publishing Free-Software is to help our Public Society.
 # In this particular Case our newly-created "Computer-World". I mean everything regarding complex IT-Systems.
 #
-# made for jkrsoftware.de as Versioning- and Deployment-System.
 # made with ❤ by Jeremy Krüger (jkr.one). 😊
 ###### 🌏 ###### 💬 ######
-source service-configurations/development-service-configuration.conf
+source ../service-configurations/production-service-configuration.conf
 
-export COMPOSE_PROJECT_NAME=${SERVICE_NAME}
+export COMPOSE_PROJECT_NAME="${SERVICE_NAME}"
+# shellcheck disable=SC2086
 docker-compose $1 $2 $3 $4 $5
