@@ -45,3 +45,6 @@ build/
 ### Service Configurations ###
 service-configurations/development-service-configuration.conf
 service-configurations/production-service-configuration.conf
+
+### IntelliJ Run-Configurations ###
+intellij-run-configurations/*
