@@ -16,7 +16,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<spring.cloud.version>2.2.6.RELEASE</spring.cloud.version>
-		<aws.sdk.version>1.12.34</aws.sdk.version>
+		<aws.sdk.version>1.12.122</aws.sdk.version>
 	</properties>
 	<dependencies>
 		<!-- (Start) Common Spring Boot Dependencies -->
@@ -39,6 +39,15 @@
 			<version>${spring.cloud.version}</version>
 		</dependency>
 		<!-- (End) Common Spring Boot Dependencies -->
+
+		<!-- (Start) AWS-Dependencies -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-ses</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
+
+		<!-- (End) AWS-Dependencies -->
 
 		<!-- (Start) Dependencies for Database -->
 		<dependency>

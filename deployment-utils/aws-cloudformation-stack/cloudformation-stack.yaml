@@ -41,20 +41,33 @@ Resources:
               - 'arn:aws:s3:::${BucketName}/*'
               - { BucketName: !Ref jkrprojectsWorklifeProjectApplicationFilesUploadBucket }
       Groups:
-        - !Ref jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessGroup
+        - !Ref jkrprojectsRestAppUserGroup
 
-  # Access-Group for easily attaching the S3 Bucket-Permissions to an IAM-User.
-  jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessGroup:
+  # Access-Policy granting Full-Access of the above Bucket for the Bucket's IAM Access-Group.
+  GrantSESPermissionsPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: GrantSESPermissionsPolicy
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: [ 'ses:*' ]
+            Resource: '*'
+      Groups:
+        - !Ref jkrprojectsRestAppUserGroup
+
+  # Access-Group the REST-App-User.
+  jkrprojectsRestAppUserGroup:
     Type: AWS::IAM::Group
     Properties:
-      GroupName: jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessGroup
+      GroupName: jkrprojectsRestAppUserGroup
 
   # IAM-User for the Spring Boot-Application.
   jkrprojectsRestAppUser:
     Type: AWS::IAM::User
     Properties:
       Groups:
-        - !Ref jkrprojectsWorklifeProjectApplicationFilesUploadBucketAccessGroup
+        - !Ref jkrprojectsRestAppUserGroup
       UserName: jkrprojects-rest-app-user
 
 ### End: My Worklife Project ###
