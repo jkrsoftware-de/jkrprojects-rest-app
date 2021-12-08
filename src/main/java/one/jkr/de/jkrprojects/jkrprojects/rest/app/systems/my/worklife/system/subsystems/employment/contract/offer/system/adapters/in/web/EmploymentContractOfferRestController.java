@@ -4,11 +4,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authorization.system.adapters.in.internal.rest.controllers.InternalAuthorizationSystemAdapterForRestControllers;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authorization.system.adapters.in.internal.rest.controllers.rest.exceptions.NoAuthorizationRestException;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.domain.CompanyCodeId;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.adapters.in.web.payload.data.classes.create.employment.contract.offer.CreateEmploymentContractOfferRequestPayload;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.adapters.in.web.payload.data.classes.create.employment.contract.offer.CreateEmploymentContractOfferResponsePayload;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.adapters.in.web.payload.data.classes.get.employment.contract.offer.GetEmploymentContractOfferResponsePayload;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.application.ports.in.create.offer.CreateEmploymentContractOfferCommand;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.application.ports.in.create.offer.CreateEmploymentContractOfferUseCase;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.application.ports.in.delete.offer.DeleteEmploymentContractOfferCommand;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.application.ports.in.delete.offer.DeleteEmploymentContractOfferUseCase;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.application.ports.in.get.offer.GetEmploymentContractOfferByIdCommand;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.application.ports.in.get.offer.GetEmploymentContractOfferUseCase;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.domain.EmploymentContractOffer;
@@ -30,10 +33,13 @@ public class EmploymentContractOfferRestController {
     private final InternalAuthorizationSystemAdapterForRestControllers internalAuthorizationSystemAdapterForRestControllers;
 
     @NonNull
+    private final GetEmploymentContractOfferUseCase getEmploymentContractOfferUseCase;
+
+    @NonNull
     private final CreateEmploymentContractOfferUseCase createEmploymentContractOfferUseCase;
 
     @NonNull
-    private final GetEmploymentContractOfferUseCase getEmploymentContractOfferUseCase;
+    private final DeleteEmploymentContractOfferUseCase deleteEmploymentContractOfferUseCase;
 
     @RequestMapping(value = "/employment-contract-offers", method = RequestMethod.POST)
     public ResponseEntity<CreateEmploymentContractOfferResponsePayload> createEmploymentContractOffer(
@@ -43,7 +49,7 @@ public class EmploymentContractOfferRestController {
 
         EmploymentContractOffer createdOffer = createEmploymentContractOfferUseCase.createOffer(
                 CreateEmploymentContractOfferCommand.of(
-                        payload.getNameOfCompany(), payload.getCompanyCode(),
+                        payload.getNameOfCompany(), new CompanyCodeId(payload.getCompanyCodeId()),
                         WishSalary.of(
                                 payload.getWishSalaryAmount(), Currency.valueOf(payload.getCurrencyOfWishSalary()),
                                 payload.isWishSalaryNegotiable()
@@ -65,11 +71,24 @@ public class EmploymentContractOfferRestController {
                     GetEmploymentContractOfferResponsePayload.of(
                             offer.getOfferId().getId(),
                             offer.getNameOfCompany(),
-                            offer.getCompanyCode(),
+                            offer.getCompanyCodeId().getId(),
                             offer.getWishSalary(),
                             offer.getCreatedAt()
                     )
             );
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @RequestMapping(value = "/employment-contract-offers/by-id/{employmentContractOfferId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteEmploymentContractOffer(@PathVariable @NonNull UUID employmentContractOfferId) {
+        boolean deleted = deleteEmploymentContractOfferUseCase.deleteOffer(
+                new DeleteEmploymentContractOfferCommand(EmploymentContractOfferId.of(employmentContractOfferId))
+        );
+
+        if (deleted) {
+            return ResponseEntity.status(HttpStatus.OK).build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

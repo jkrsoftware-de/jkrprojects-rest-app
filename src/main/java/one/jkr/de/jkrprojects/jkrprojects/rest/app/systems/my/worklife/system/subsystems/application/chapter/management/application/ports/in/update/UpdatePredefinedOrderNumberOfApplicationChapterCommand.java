@@ -1,13 +1,15 @@
-package one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.application.chapter.management.subsystems.application.files.management.application.ports.in;
+package one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.application.chapter.management.application.ports.in.update;
 
 import lombok.NonNull;
 import lombok.Value;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.application.chapter.management.domain.ApplicationChapterId;
 
 @Value
-public class GetPresignedDownloadUrlForApplicationFileCommand {
+public class UpdatePredefinedOrderNumberOfApplicationChapterCommand {
 
     @NonNull
     ApplicationChapterId applicationChapterId;
+
+    int predefinedOrderNumber;
 
 }

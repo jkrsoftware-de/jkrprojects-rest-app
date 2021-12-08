@@ -3,6 +3,8 @@ package one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.s
 import lombok.NonNull;
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value(staticConstructor = "of")
 public class CreateEmploymentContractOfferRequestPayload {
 
@@ -10,7 +12,7 @@ public class CreateEmploymentContractOfferRequestPayload {
     String nameOfCompany;
 
     @NonNull
-    String companyCode;
+    UUID companyCodeId;
 
     int wishSalaryAmount;
 

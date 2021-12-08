@@ -2,6 +2,7 @@ package one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.s
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.domain.CompanyCodeId;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.adapters.out.persistence.employment.contract.offers.entity.data.classes.EmploymentContractOfferDto;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.adapters.out.persistence.employment.contract.offers.repository.EmploymentContractOfferRepository;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.employment.contract.offer.system.application.ports.out.EmploymentContractOfferPersistencePort;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -40,11 +42,20 @@ public class EmploymentContractOfferDatabaseController implements EmploymentCont
         employmentContractOfferRepository.save(mapToDatabaseEntityObject(employmentContractOffer));
     }
 
+    @Override
+    public boolean delete(@NonNull EmploymentContractOfferId employmentContractOfferId) {
+        if (employmentContractOfferRepository.existsById(employmentContractOfferId.getId())) {
+            employmentContractOfferRepository.removeByEmploymentContractOfferId(employmentContractOfferId.getId());
+            return true;
+        }
+        return false;
+    }
+
     private EmploymentContractOffer mapToDomainEntityObject(EmploymentContractOfferDto dto) {
         return EmploymentContractOffer.of(
                 EmploymentContractOfferId.of(dto.getEmploymentContractOfferId()),
                 dto.getNameOfCompany(),
-                dto.getCompanyCode(),
+                new CompanyCodeId(UUID.fromString(dto.getCompanyCodeId())),
                 WishSalary.of(
                         dto.getWishSalaryAmount(),
                         Currency.valueOf(dto.getWishSalaryCurrency()),
@@ -59,7 +70,7 @@ public class EmploymentContractOfferDatabaseController implements EmploymentCont
         return new EmploymentContractOfferDto(
                 deo.getOfferId().getId(),
                 deo.getNameOfCompany(),
-                deo.getCompanyCode(),
+                deo.getCompanyCodeId().getId().toString(),
                 deo.getWishSalary().getAmount(),
                 deo.getWishSalary().getCurrency().name(),
                 deo.getWishSalary().isNegotiable(),

@@ -5,6 +5,7 @@ import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.su
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,5 +15,8 @@ public interface EmploymentContractOfferRepository extends CrudRepository<Employ
     List<EmploymentContractOfferDto> findAll(@NonNull Pageable pageable);
 
     Optional<EmploymentContractOfferDto> findByEmploymentContractOfferId(@NonNull UUID employmentContractOfferId);
+
+    @Transactional
+    void removeByEmploymentContractOfferId(@NonNull UUID employmentContractOfferId);
 
 }

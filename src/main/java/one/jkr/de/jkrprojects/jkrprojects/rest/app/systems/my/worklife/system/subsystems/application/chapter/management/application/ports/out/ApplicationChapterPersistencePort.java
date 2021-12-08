@@ -16,6 +16,6 @@ public interface ApplicationChapterPersistencePort {
 
     void save(@NonNull ApplicationChapter applicationChapter);
 
-    void remove(@NonNull ApplicationChapterId applicationChapterId);
+    boolean remove(@NonNull ApplicationChapterId applicationChapterId);
 
 }

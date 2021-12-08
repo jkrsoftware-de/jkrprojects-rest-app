@@ -16,4 +16,6 @@ public interface EmploymentContractOfferPersistencePort {
 
     void save(@NonNull EmploymentContractOffer employmentContractOffer);
 
+    boolean delete(@NonNull EmploymentContractOfferId employmentContractOfferId);
+
 }

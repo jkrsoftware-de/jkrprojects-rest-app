@@ -32,6 +32,7 @@ Maven (Build & Run all Tests):
 Start Development-Deployment:
   stage: deployment
   image: alpine:latest
+  when: manual
   only:
     refs:
       - development
@@ -44,6 +45,7 @@ Start Development-Deployment:
 Start Production-Deployment:
   stage: deployment
   image: alpine:latest
+  when: manual
   only:
     refs:
       - production

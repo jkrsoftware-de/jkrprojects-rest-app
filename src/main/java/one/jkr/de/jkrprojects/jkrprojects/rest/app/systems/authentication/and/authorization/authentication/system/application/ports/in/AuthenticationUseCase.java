@@ -10,6 +10,8 @@ public interface AuthenticationUseCase {
 
     Optional<JwtAuthenticationToken> authenticateClient(@NonNull AuthenticateViaCompanyCodeCommand command);
 
+    Optional<JwtAuthenticationToken> authenticateClient(@NonNull AuthenticateViaCompanyCodeIdCommand command);
+
     Optional<JwtAuthenticationToken> authenticateClient(@NonNull AuthenticateViaSystemClientCredentialsCommand command);
 
     Optional<SuccessfulAuthenticationResponse> checkAuthentication(@NonNull CheckAuthenticationViaJwtAuthenticationTokenCommand command);

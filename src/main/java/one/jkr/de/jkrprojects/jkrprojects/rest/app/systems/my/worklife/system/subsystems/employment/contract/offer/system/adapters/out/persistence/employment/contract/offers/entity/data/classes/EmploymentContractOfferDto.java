@@ -23,7 +23,7 @@ public class EmploymentContractOfferDto {
     String nameOfCompany;
 
     @NonNull
-    String companyCode;
+    String companyCodeId;
 
     int wishSalaryAmount;
 

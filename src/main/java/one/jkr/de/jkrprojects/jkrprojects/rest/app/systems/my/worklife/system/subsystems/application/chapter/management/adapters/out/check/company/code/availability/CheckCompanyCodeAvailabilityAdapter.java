@@ -18,4 +18,5 @@ public class CheckCompanyCodeAvailabilityAdapter implements CheckCompanyCodeAvai
     public boolean doesCompanyCodeExists(@NonNull CompanyCodeId companyCodeId) {
         return internalCompanyCodeAdapter.getCompanyCode(companyCodeId).isPresent();
     }
+
 }

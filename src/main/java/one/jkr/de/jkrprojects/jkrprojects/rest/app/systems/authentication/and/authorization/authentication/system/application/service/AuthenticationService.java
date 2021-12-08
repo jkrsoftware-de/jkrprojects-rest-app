@@ -2,10 +2,7 @@ package one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.a
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authentication.system.application.ports.in.AuthenticateViaCompanyCodeCommand;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authentication.system.application.ports.in.AuthenticateViaSystemClientCredentialsCommand;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authentication.system.application.ports.in.AuthenticationUseCase;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authentication.system.application.ports.in.CheckAuthenticationViaJwtAuthenticationTokenCommand;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authentication.system.application.ports.in.*;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authentication.system.application.ports.out.LoadCompanyCodePort;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authentication.system.application.ports.out.LoadSystemClientPort;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.authentication.and.authorization.authentication.system.application.utils.jwt.JwtTokenIssuer;
@@ -41,6 +38,16 @@ public class AuthenticationService implements AuthenticationUseCase {
     @Override
     public Optional<JwtAuthenticationToken> authenticateClient(@NonNull AuthenticateViaCompanyCodeCommand command) {
         Optional<CompanyCode> eventualExistingCompanyCode = loadCompanyCodePort.getCompanyCode(command.getCompanyCode());
+        return eventualExistingCompanyCode.map(
+                companyCode -> jwtTokenIssuer.issueToken(
+                        new JwtTokenSubjectForViaCompanyCodeAuthenticatedClientTokens(companyCode.getCompanyCodeId().getId())
+                )
+        );
+    }
+
+    @Override
+    public Optional<JwtAuthenticationToken> authenticateClient(@NonNull AuthenticateViaCompanyCodeIdCommand command) {
+        Optional<CompanyCode> eventualExistingCompanyCode = loadCompanyCodePort.getCompanyCode(command.getCompanyCodeId());
         return eventualExistingCompanyCode.map(
                 companyCode -> jwtTokenIssuer.issueToken(
                         new JwtTokenSubjectForViaCompanyCodeAuthenticatedClientTokens(companyCode.getCompanyCodeId().getId())

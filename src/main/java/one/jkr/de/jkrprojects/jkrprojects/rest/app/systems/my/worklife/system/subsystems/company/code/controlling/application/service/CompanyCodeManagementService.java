@@ -3,10 +3,13 @@ package one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.s
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.AddCompanyCodeCommand;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.CompanyCodeUseCase;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.GetCompanyCodeEntityViaCompanyCodeCommand;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.GetCompanyCodeEntityViaCompanyCodeIdCommand;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.create.AddCompanyCodeCommand;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.create.AddCompanyCodeUseCase;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.get.GetCompanyCodeEntityViaCompanyCodeCommand;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.get.GetCompanyCodeEntityViaCompanyCodeIdCommand;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.get.GetCompanyCodeUseCase;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.remove.RemoveCompanyCodeCommand;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.in.remove.RemoveCompanyCodeUseCase;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.application.ports.out.CompanyCodePersistencePort;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.domain.CompanyCode;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.company.code.controlling.domain.CompanyCodeId;
@@ -20,7 +23,7 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CompanyCodeManagementService implements CompanyCodeUseCase {
+public class CompanyCodeManagementService implements GetCompanyCodeUseCase, AddCompanyCodeUseCase, RemoveCompanyCodeUseCase {
 
     @NonNull
     private static final String LOG_PREFIX = "[Company Code Management Service]: ";
@@ -59,4 +62,8 @@ public class CompanyCodeManagementService implements CompanyCodeUseCase {
         return newCompanyCode;
     }
 
+    @Override
+    public boolean remove(@NonNull RemoveCompanyCodeCommand command) {
+        return persistencePort.remove(command.getCompanyCodeId());
+    }
 }

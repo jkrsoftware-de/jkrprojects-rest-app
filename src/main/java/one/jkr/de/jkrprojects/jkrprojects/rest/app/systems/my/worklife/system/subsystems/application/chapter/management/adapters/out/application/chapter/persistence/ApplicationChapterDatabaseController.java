@@ -38,8 +38,12 @@ public class ApplicationChapterDatabaseController implements ApplicationChapterP
     }
 
     @Override
-    public void remove(@NonNull ApplicationChapterId applicationChapterId) {
-        repository.deleteByApplicationChapterId(applicationChapterId.getId());
+    public boolean remove(@NonNull ApplicationChapterId applicationChapterId) {
+        if (repository.existsById(applicationChapterId.getId())) {
+            repository.removeByApplicationChapterId(applicationChapterId.getId());
+            return true;
+        }
+        return false;
     }
 
     private ApplicationChapter mapToDomainEntityObject(ApplicationChapterDto applicationChapterDto) {

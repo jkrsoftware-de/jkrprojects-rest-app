@@ -39,6 +39,15 @@ public class CompanyCodeDatabaseController implements CompanyCodePersistencePort
         companyCodeRepository.save(mapToDatabaseEntityObject(companyCode));
     }
 
+    @Override
+    public boolean remove(@NonNull CompanyCodeId companyCodeId) {
+        if (companyCodeRepository.existsById(companyCodeId.getId())) {
+            companyCodeRepository.removeByCompanyCodeId(companyCodeId.getId());
+            return true;
+        }
+        return false;
+    }
+
     private CompanyCode mapToDomainEntityObject(CompanyCodeDto companyCodeDto) {
         return new CompanyCode(
                 new CompanyCodeId(companyCodeDto.getCompanyCodeId()),

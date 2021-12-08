@@ -17,7 +17,7 @@ public class GetEmploymentContractOfferResponsePayload {
     String nameOfCompany;
 
     @NonNull
-    String companyCode;
+    UUID companyCodeId;
 
     @NonNull
     WishSalary wishSalary;
