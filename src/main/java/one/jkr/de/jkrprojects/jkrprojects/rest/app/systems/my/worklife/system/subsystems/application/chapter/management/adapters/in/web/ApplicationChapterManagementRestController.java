@@ -36,7 +36,7 @@ import java.util.UUID;
 @Slf4j
 public class ApplicationChapterManagementRestController {
 
-    private static final String LOG_PREFIX = "[Files Management REST-Controller]: ";
+    private static final String LOG_PREFIX = "[Application Chapter Management REST-Controller]: ";
 
     @NonNull
     private final InternalAuthorizationSystemAdapterForRestControllers internalAuthorizationSystemAdapterForRestControllers;
@@ -124,15 +124,15 @@ public class ApplicationChapterManagementRestController {
     public ResponseEntity<?> getApplicationChapterFileDownloadUrl(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                                   @PathVariable @NonNull UUID applicationChapterId)
             throws NoAuthorizationRestException {
-
         Optional<ApplicationChapter> applicationChapter = getApplicationChapterUseCase.getApplicationChapter(
                 new GetApplicationChapterCommand(new ApplicationChapterId(applicationChapterId)));
         if (applicationChapter.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        internalAuthorizationSystemAdapterForRestControllers.checkAuthorizationForCompanyCode(authorizationHeader,
-                applicationChapter.get().getCompanyCodeId().getId());
+        internalAuthorizationSystemAdapterForRestControllers.checkAuthorizationForCompanyCode(
+                authorizationHeader, applicationChapter.get().getCompanyCodeId().getId()
+        );
 
         log.info(LOG_PREFIX + "Get Presigned-Download URL for Application Chapter: \"{}\".", applicationChapterId);
         Optional<URL> presignedDownloadUrl = internalIssuePresignedURLsForApplicationFilesManagementAdapter.getPresignedDownloadUrl(

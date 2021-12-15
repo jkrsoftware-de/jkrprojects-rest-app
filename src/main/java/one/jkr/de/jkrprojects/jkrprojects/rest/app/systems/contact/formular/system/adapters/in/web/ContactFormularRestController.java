@@ -26,14 +26,13 @@ public class ContactFormularRestController {
 
     @RequestMapping(value = "/contact-formular-system/send-contact-message", method = RequestMethod.POST)
     public ResponseEntity<?> sendContactMessage(@RequestBody @NonNull SendContactMessageRequestPayload payload) {
-        // TODO: Captcha Validation.
+        // TODO: introduce Captcha Validation.
         sendContactMessageUseCase.submitContactMessage(
                 SubmitContactMessageCommand.of(
                         ContactMessage.of(
                                 Submitter.of(
                                         payload.getSubmitterName(), EmailAddress.of(payload.getSubmitterEmailAddress())
                                 ), payload.getSubject(), payload.getContent()
-
                         )
                 )
         );

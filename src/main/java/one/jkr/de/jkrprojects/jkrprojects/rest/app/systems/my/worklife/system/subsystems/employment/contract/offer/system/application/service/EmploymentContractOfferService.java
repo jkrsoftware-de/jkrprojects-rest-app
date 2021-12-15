@@ -22,8 +22,8 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class EmploymentContractOfferService implements GetEmploymentContractOfferUseCase, CreateEmploymentContractOfferUseCase,
-        DeleteEmploymentContractOfferUseCase {
+public class EmploymentContractOfferService
+        implements GetEmploymentContractOfferUseCase, CreateEmploymentContractOfferUseCase, DeleteEmploymentContractOfferUseCase {
 
     @NonNull
     private final EmploymentContractOfferPersistencePort employmentContractOfferPersistencePort;
