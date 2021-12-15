@@ -53,7 +53,9 @@ public class ApplicationChapterManagementRestController {
     @NonNull
     private final UpdateApplicationChapterUseCase updateApplicationChapterUseCase;
 
-    @RequestMapping(value = "/chapter-management/list-all/by-company-code-id/{companyCodeId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/chapter-management/list-all/by-company-code-id/{companyCodeId}", method = RequestMethod.GET,
+            consumes = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json",
+            produces = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json")
     public ResponseEntity<?> listAllApplicationChaptersForCompanyCode(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                                       @PathVariable @NonNull UUID companyCodeId)
             throws NoAuthorizationRestException {
@@ -71,7 +73,9 @@ public class ApplicationChapterManagementRestController {
         return ResponseEntity.ok(new ListAllApplicationChaptersForCompanyCodeResponsePayload(applicationChapters));
     }
 
-    @RequestMapping(value = "/chapter-management/application-chapter", method = RequestMethod.POST)
+    @RequestMapping(value = "/chapter-management/application-chapter", method = RequestMethod.POST,
+            consumes = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json",
+            produces = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json")
     public ResponseEntity<?> createNewApplicationChapter(
             @RequestHeader("Authorization") @NonNull String authorizationHeader,
             @RequestBody @NonNull CreateApplicationChapterRequestPayload payload) throws NoAuthorizationRestException {
@@ -93,7 +97,9 @@ public class ApplicationChapterManagementRestController {
         );
     }
 
-    @RequestMapping(value = "/chapter-management/application-chapter/{applicationChapterId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/chapter-management/application-chapter/{applicationChapterId}", method = RequestMethod.PUT,
+            consumes = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json",
+            produces = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json")
     public ResponseEntity<?> updateApplicationChapter(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                       @PathVariable @NonNull UUID applicationChapterId,
                                                       @RequestBody @NonNull UpdatePredefinedOrderNumberOfApplicationChapterRequestPayload payload)
@@ -120,7 +126,9 @@ public class ApplicationChapterManagementRestController {
         }
     }
 
-    @RequestMapping(value = "/chapter-management/application-chapter/{applicationChapterId}/file/download-url", method = RequestMethod.GET)
+    @RequestMapping(value = "/chapter-management/application-chapter/{applicationChapterId}/file/download-url", method = RequestMethod.GET,
+            consumes = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json",
+            produces = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json")
     public ResponseEntity<?> getApplicationChapterFileDownloadUrl(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                                   @PathVariable @NonNull UUID applicationChapterId)
             throws NoAuthorizationRestException {
@@ -145,7 +153,9 @@ public class ApplicationChapterManagementRestController {
         return ResponseEntity.ok(new GetPresignedUrlResponsePayload(presignedDownloadUrl.get()));
     }
 
-    @RequestMapping(value = "/chapter-management/application-chapter/{applicationChapterId}/file/upload-url", method = RequestMethod.GET)
+    @RequestMapping(value = "/chapter-management/application-chapter/{applicationChapterId}/file/upload-url", method = RequestMethod.GET,
+            consumes = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json",
+            produces = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json")
     public ResponseEntity<?> getApplicationChapterFileUploadUrl(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                                 @PathVariable @NonNull UUID applicationChapterId)
             throws NoAuthorizationRestException {

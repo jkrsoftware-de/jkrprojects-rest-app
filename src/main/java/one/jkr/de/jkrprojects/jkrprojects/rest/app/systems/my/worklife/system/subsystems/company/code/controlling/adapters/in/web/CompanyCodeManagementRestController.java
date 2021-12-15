@@ -24,10 +24,13 @@ public class CompanyCodeManagementRestController {
     @NonNull
     private final AddCompanyCodeUseCase addCompanyCodeUseCase;
 
-    @RequestMapping(value = "/company-code-management/{companyCode}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/company-code-management/{companyCode}", method = RequestMethod.PUT,
+            consumes = "application/vnd.jkrsoftwarede.my-worklife.company-code-controlling-system.v1+json",
+            produces = "application/vnd.jkrsoftwarede.my-worklife.company-code-controlling-system.v1+json")
     public CreateCompanyCodeResponsePayload addCompanyCode(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                            @PathVariable @NonNull String companyCode,
-                                                           @RequestBody @NonNull CreateCompanyCodeRequestPayload payload) throws NoAuthorizationRestException {
+                                                           @RequestBody @NonNull CreateCompanyCodeRequestPayload payload)
+            throws NoAuthorizationRestException {
         internalAuthorizationSystemAdapterForRestControllers.checkSystemClientAuthorization(authorizationHeader);
 
         log.info(LOG_PREFIX + "Create Company Code: \"{}\".", payload);

@@ -41,7 +41,9 @@ public class EmploymentContractOfferRestController {
     @NonNull
     private final DeleteEmploymentContractOfferUseCase deleteEmploymentContractOfferUseCase;
 
-    @RequestMapping(value = "/employment-contract-offers", method = RequestMethod.POST)
+    @RequestMapping(value = "/employment-contract-offers", method = RequestMethod.POST,
+            consumes = "application/vnd.jkrsoftwarede.my-worklife.employment-contract-offer-system.v1+json",
+            produces = "application/vnd.jkrsoftwarede.my-worklife.employment-contract-offer-system.v1+json")
     public ResponseEntity<CreateEmploymentContractOfferResponsePayload> createEmploymentContractOffer(
             @RequestHeader("Authorization") @NonNull String authorizationHeader,
             @RequestBody @NonNull CreateEmploymentContractOfferRequestPayload payload) throws NoAuthorizationRestException {
