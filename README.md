@@ -1,11 +1,6 @@
 # REST-App for jkrprojects.de-Services.
 
-> **No Tests written (yet)**:<br />
-> Currently, I value more the Productivity of this REST-Microservice.<br />
-> That means, everything is working fine for me, but I don't wrote any Tests yet.<br />
-> The Systems are so simple developed, I believe, there is no Security Issue regarding this. 😊<br />
-> My Contact Formular-System currently has no Captcha-Check, so that's the only System, that's attackable.<br />
-> Hopefully it won't be abused, till I implemented a Captcha-Check in the Backend + Frontend.
+> Currently, I value more the Productivity of this REST-Microservice and don't wrote any Tests yet.<br />
 
 ---
 
