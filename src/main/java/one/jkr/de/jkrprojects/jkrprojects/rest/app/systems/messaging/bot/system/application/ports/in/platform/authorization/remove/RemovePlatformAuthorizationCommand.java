@@ -2,12 +2,12 @@ package one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.messaging.bot.system
 
 import lombok.NonNull;
 import lombok.Value;
-import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.messaging.bot.system.domain.chat.user.platform.authorization.PlatformAuthorizationId;
+import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.messaging.bot.system.domain.platform.authorization.PlatformAuthorizationId;
 
 @Value(staticConstructor = "of")
 public class RemovePlatformAuthorizationCommand {
 
     @NonNull
-    PlatformAuthorizationId platformAuthorizationId;
+    PlatformAuthorizationId platformAuthorizationToRemove;
 
 }
