@@ -54,7 +54,6 @@ public class ApplicationChapterManagementRestController {
     private final UpdateApplicationChapterUseCase updateApplicationChapterUseCase;
 
     @RequestMapping(value = "/chapter-management/list-all/by-company-code-id/{companyCodeId}", method = RequestMethod.GET,
-            consumes = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json",
             produces = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json")
     public ResponseEntity<?> listAllApplicationChaptersForCompanyCode(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                                       @PathVariable @NonNull UUID companyCodeId)
@@ -127,7 +126,6 @@ public class ApplicationChapterManagementRestController {
     }
 
     @RequestMapping(value = "/chapter-management/application-chapter/{applicationChapterId}/file/download-url", method = RequestMethod.GET,
-            consumes = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json",
             produces = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json")
     public ResponseEntity<?> getApplicationChapterFileDownloadUrl(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                                   @PathVariable @NonNull UUID applicationChapterId)
@@ -154,7 +152,6 @@ public class ApplicationChapterManagementRestController {
     }
 
     @RequestMapping(value = "/chapter-management/application-chapter/{applicationChapterId}/file/upload-url", method = RequestMethod.GET,
-            consumes = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json",
             produces = "application/vnd.jkrsoftwarede.my-worklife.application-chapter-management-system.v1+json")
     public ResponseEntity<?> getApplicationChapterFileUploadUrl(@RequestHeader("Authorization") @NonNull String authorizationHeader,
                                                                 @PathVariable @NonNull UUID applicationChapterId)

@@ -61,7 +61,8 @@ public class EmploymentContractOfferRestController {
         return ResponseEntity.ok(CreateEmploymentContractOfferResponsePayload.of(createdOffer.getOfferId().getId()));
     }
 
-    @RequestMapping(value = "/employment-contract-offers/by-id/{employmentContractOfferId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/employment-contract-offers/by-id/{employmentContractOfferId}", method = RequestMethod.GET,
+            produces = "application/vnd.jkrsoftwarede.my-worklife.employment-contract-offer-system.v1+json")
     public ResponseEntity<?> getEmploymentContractOffer(@PathVariable @NonNull UUID employmentContractOfferId) {
         Optional<EmploymentContractOffer> employmentContractOffer = getEmploymentContractOfferUseCase.getOffer(
                 GetEmploymentContractOfferByIdCommand.of(EmploymentContractOfferId.of(employmentContractOfferId))
