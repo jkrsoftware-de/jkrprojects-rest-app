@@ -5,11 +5,20 @@ import lombok.Value;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.application.chapter.management.domain.ApplicationChapter;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Value
 public class ListAllApplicationChaptersForCompanyCodeResponsePayload {
 
     @NonNull
-    Set<ApplicationChapter> applicationChapters;
+    Set<ApplicationChapterDetailsForRestInterface> applicationChapters;
+
+    public static ListAllApplicationChaptersForCompanyCodeResponsePayload of(@NonNull Set<ApplicationChapter> applicationChapters) {
+        return new ListAllApplicationChaptersForCompanyCodeResponsePayload(
+                applicationChapters.stream()
+                        .map(ApplicationChapterDetailsForRestInterface::of)
+                        .collect(Collectors.toSet())
+        );
+    }
 
 }

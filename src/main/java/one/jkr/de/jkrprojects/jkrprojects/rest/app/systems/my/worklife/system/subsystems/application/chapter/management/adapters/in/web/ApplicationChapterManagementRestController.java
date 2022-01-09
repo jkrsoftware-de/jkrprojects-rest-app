@@ -68,8 +68,9 @@ public class ApplicationChapterManagementRestController {
         if (applicationChapters.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
-        return ResponseEntity.ok(new ListAllApplicationChaptersForCompanyCodeResponsePayload(applicationChapters));
+        return ResponseEntity.ok(
+                ListAllApplicationChaptersForCompanyCodeResponsePayload.of(applicationChapters)
+        );
     }
 
     @RequestMapping(value = "/chapter-management/application-chapter", method = RequestMethod.POST,
