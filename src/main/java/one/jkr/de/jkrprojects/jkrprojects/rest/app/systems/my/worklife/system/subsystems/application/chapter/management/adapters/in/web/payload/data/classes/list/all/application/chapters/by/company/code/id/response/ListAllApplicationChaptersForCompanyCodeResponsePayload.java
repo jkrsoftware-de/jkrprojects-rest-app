@@ -4,6 +4,8 @@ import lombok.NonNull;
 import lombok.Value;
 import one.jkr.de.jkrprojects.jkrprojects.rest.app.systems.my.worklife.system.subsystems.application.chapter.management.domain.ApplicationChapter;
 
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,7 +19,8 @@ public class ListAllApplicationChaptersForCompanyCodeResponsePayload {
         return new ListAllApplicationChaptersForCompanyCodeResponsePayload(
                 applicationChapters.stream()
                         .map(ApplicationChapterDetailsForRestInterface::of)
-                        .collect(Collectors.toSet())
+                        .sorted(Comparator.comparing(ApplicationChapterDetailsForRestInterface::getPredefinedOrderNumber))
+                        .collect(Collectors.toCollection(LinkedHashSet::new))
         );
     }
 
