@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public class ContactFormularRateLimiter {
 
-    private final static int rateLimit = 0;
+    private final static int rateLimit = 50;
 
     private final AtomicInteger requestCounter = new AtomicInteger(0);
 
